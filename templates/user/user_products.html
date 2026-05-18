@@ -53,10 +53,12 @@
                 ₹{{ product.price }}
             </p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                <a href="/user/add-to-cart/{{ product.product_id }}" class="btn btn-secondary" title="Add to Cart" style="padding: 10px; font-size: 0.85rem;">
-                    <i class="ph ph-shopping-cart"></i> Add
-                </a>
-                <a href="/user/product/{{ product.product_id }}" class="btn btn-secondary" title="View Details" style="padding: 10px; font-size: 0.85rem;">
+                <form action="/user/add-to-cart/{{ product.product_id }}" method="GET" style="margin: 0; padding: 0; width: 100%;">
+                    <button type="submit" class="btn btn-secondary" title="Add to Cart" style="width: 100%; padding: 10px; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <i class="ph ph-shopping-cart"></i> Add
+                    </button>
+                </form>
+                <a href="/user/product/{{ product.product_id }}" class="btn btn-secondary" title="View Details" style="padding: 10px; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
                     <i class="ph ph-eye"></i> View
                 </a>
             </div>

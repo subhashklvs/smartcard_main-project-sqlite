@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}SmartCart Admin{% endblock %}</title>
-    
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    
+
     <!-- Phosphor Icons for premium aesthetic -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
+
 <body>
 
     <!-- Dynamic Navbar -->
-    <nav class="navbar glass-effect">
-        <div class="nav-container">
+    <nav class="navbar navbar-expand-lg glass-effect">
+        <div class="nav-container container">
             <a href="/admin-dashboard" class="brand">
                 <i class="ph-fill ph-shopping-cart"></i> SmartCart
             </a>
-            <div class="nav-links">
-                {% if session.get('admin_id') %}
+            
+            <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar" aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="ph ph-list" style="font-size: 1.8rem; color: var(--text-main);"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="adminNavbar">
+                <div class="nav-links ms-auto">
+                    {% if session.get('admin_id') %}
                     <a href="/admin-dashboard" class="nav-link"><i class="ph ph-squares-four"></i> Dashboard</a>
                     <a href="/admin/item-list" class="nav-link"><i class="ph ph-list-dashes"></i> Products</a>
                     <a href="/admin/add-item" class="nav-link"><i class="ph ph-plus-circle"></i> Add Item</a>
@@ -31,15 +42,16 @@
                     <a href="/admin/profile" class="nav-link profile-link">
                         <i class="ph ph-user-circle"></i> {{ session.get('admin_name', 'Profile') }}
                     </a>
-                    <a href="/admin-logout" class="btn btn-danger-outline"><i class="ph ph-sign-out"></i> Logout</a>
-                {% else %}
+                    <a href="/admin-logout" class="btn btn-danger-outline ms-lg-2"><i class="ph ph-sign-out"></i> Logout</a>
+                    {% else %}
                     <a href="/admin-login" class="nav-link"><i class="ph ph-house"></i> Home</a>
                     <a href="/about" class="nav-link"><i class="ph ph-info"></i> About</a>
                     <a href="/contact" class="nav-link"><i class="ph ph-envelope"></i> Contact</a>
                     <div class="nav-divider"></div>
                     <a href="/admin-login" class="nav-link">Login</a>
-                    <a href="/admin-signup" class="btn btn-primary">Sign Up</a>
-                {% endif %}
+                    <a href="/admin-signup" class="btn btn-primary ms-lg-2">Sign Up</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
@@ -49,20 +61,20 @@
         <!-- Flash Messages -->
         <div class="flash-container">
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} fade-in">
-                            {% if category == 'success' %}
-                                <i class="ph-fill ph-check-circle"></i>
-                            {% elif category == 'danger' or category == 'error' %}
-                                <i class="ph-fill ph-warning-circle"></i>
-                            {% else %}
-                                <i class="ph-fill ph-info"></i>
-                            {% endif %}
-                            <span>{{ message }}</span>
-                        </div>
-                    {% endfor %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} fade-in">
+                {% if category == 'success' %}
+                <i class="ph-fill ph-check-circle"></i>
+                {% elif category == 'danger' or category == 'error' %}
+                <i class="ph-fill ph-warning-circle"></i>
+                {% else %}
+                <i class="ph-fill ph-info"></i>
                 {% endif %}
+                <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+            {% endif %}
             {% endwith %}
         </div>
 
@@ -76,17 +88,20 @@
         <p>&copy; 2026 SmartCart Admin Dashboard | Designed with <i class="ph-fill ph-heart"></i></p>
     </footer>
 
+    <!-- Bootstrap Bundle with Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         // Auto-hide flash messages after 3 seconds
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(function () {
                 var flashMessages = document.querySelectorAll('.alert');
-                flashMessages.forEach(function(message) {
+                flashMessages.forEach(function (message) {
                     message.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                     message.style.opacity = '0';
                     message.style.transform = 'translateY(-10px)';
-                    
-                    setTimeout(function() {
+
+                    setTimeout(function () {
                         message.remove();
                     }, 500);
                 });
@@ -94,4 +109,5 @@
         });
     </script>
 </body>
+
 </html>

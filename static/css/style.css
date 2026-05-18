@@ -70,7 +70,7 @@ a:hover {
     align-items: center;
 }
 
-.brand {
+.navbar .brand {
     font-size: 1.5rem;
     font-weight: 700;
     color: #fff;
@@ -81,12 +81,12 @@ a:hover {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-.brand i {
+.navbar .brand i {
     -webkit-text-fill-color: initial;
     color: #a855f7;
 }
 
-.nav-links {
+.navbar .nav-links {
     display: flex;
     align-items: center;
     gap: 15px;
@@ -94,8 +94,8 @@ a:hover {
     justify-content: flex-end;
 }
 
-.nav-link {
-    color: var(--text-muted);
+.navbar .nav-link {
+    color: var(--text-muted) !important;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -105,12 +105,12 @@ a:hover {
     transition: all 0.3s ease;
 }
 
-.nav-link:hover {
-    color: #fff;
+.navbar .nav-link:hover {
+    color: #fff !important;
     background: rgba(255, 255, 255, 0.05);
 }
 
-.nav-divider {
+.navbar .nav-divider {
     width: 1px;
     height: 24px;
     background: var(--glass-border);
@@ -437,4 +437,113 @@ td img {
     font-size: 0.9rem;
     border-top: 1px solid var(--glass-border);
     margin-top: auto;
+}
+
+/* ==================================================
+   RESPONSIVE DESIGN & MOBILE OPTIMIZATIONS
+   ================================================== */
+@media (max-width: 991.98px) {
+    /* Navbar Collapse Card Design */
+    .navbar .navbar-collapse {
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .navbar .nav-links {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        width: 100%;
+        padding: 5px 0;
+    }
+    
+    .navbar .nav-link {
+        justify-content: flex-start;
+        width: 100%;
+        padding: 10px 15px;
+    }
+    
+    .navbar .nav-divider {
+        display: none;
+    }
+    
+    .navbar .btn {
+        width: 100%;
+        margin-top: 5px;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Navbar Scaling */
+    .navbar {
+        padding: 10px 0;
+    }
+
+    /* Main Container Adjustments */
+    .main-content {
+        padding: 20px 12px;
+    }
+    
+    /* Typography Scaling */
+    h2 {
+        font-size: 1.6rem;
+    }
+    
+    /* Flex Utilities Stacking */
+    .flex-between {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+        text-align: center;
+    }
+    .flex-between h2 {
+        margin-bottom: 0;
+    }
+    .flex-gap {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+    .flex-gap form {
+        width: 100%;
+        justify-content: center;
+    }
+    .flex-gap input, .flex-gap select {
+        max-width: 100% !important;
+        flex: 1;
+    }
+
+    /* Table side-scrolling smoothness */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Tight Card Padding to Save Screen Real Estate */
+    .card {
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+    
+    /* Stat grid collapses to a single column */
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px;
+    }
+    .stat-card {
+        padding: 20px;
+    }
+    
+    /* Product grid columns */
+    .dashboard-grid[style*="auto-fill"] {
+        grid-template-columns: 1fr !important;
+    }
 }
