@@ -1739,6 +1739,44 @@ def my_orders():
 
 
 # ---------------------------------------------------------
+# USER ROUTE 12.5: DELETE ORDER
+# ---------------------------------------------------------
+@app.route('/user/delete-order/<int:order_id>')
+def delete_order(order_id):
+    if 'user_id' not in session:
+        flash("Please login first!", "danger")
+        return redirect('/user-login')
+
+    user_id = session['user_id']
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Verify ownership of the order
+        cursor.execute("SELECT order_id FROM orders WHERE order_id = %s AND user_id = %s", (order_id, user_id))
+        order = cursor.fetchone()
+
+        if order:
+            # Delete order items first
+            cursor.execute("DELETE FROM order_items WHERE order_id = %s", (order_id,))
+            # Delete the order record
+            cursor.execute("DELETE FROM orders WHERE order_id = %s", (order_id,))
+            conn.commit()
+            flash("Order deleted successfully!", "success")
+        else:
+            flash("Order not found or access denied.", "danger")
+    except Exception as e:
+        conn.rollback()
+        app.logger.error("Error deleting order: %s", str(e))
+        flash("An error occurred while trying to delete the order.", "danger")
+    finally:
+        cursor.close()
+        conn.close()
+
+    return redirect('/user/my-orders')
+
+
+# ---------------------------------------------------------
 # USER ROUTE 13: USER LOGOUT
 # ---------------------------------------------------------
 @app.route('/user-logout')
