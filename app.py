@@ -1312,6 +1312,51 @@ def add_to_cart(product_id):
 
 
 # =================================================================
+# BUY NOW
+# =================================================================
+@app.route('/user/buy-now/<int:product_id>')
+def buy_now(product_id):
+    if 'user_id' not in session:
+        flash("Please login first!", "danger")
+        return redirect('/user-login')
+
+    if 'cart' not in session:
+        session['cart'] = {}
+
+    cart = session['cart']
+
+    # Get product
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM products WHERE product_id=%s", (product_id,))
+    product = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not product:
+        flash("Product not found.", "danger")
+        return redirect(request.referrer or '/user/products')
+
+    pid = str(product_id)
+
+    # If exists → increase quantity
+    if pid in cart:
+        cart[pid]['quantity'] += 1
+    else:
+        cart[pid] = {
+            'name': product['name'],
+            'price': float(product['price']),
+            'image': product['image'],
+            'quantity': 1
+        }
+
+    session['cart'] = cart
+    session.modified = True
+
+    return redirect('/user/checkout')
+
+
+# =================================================================
 # ADD ITEM TO CART AJAX
 # =================================================================
 @app.route('/user/add-to-cart-ajax/<int:product_id>')

@@ -3,18 +3,21 @@
 {% block title %}{{ product.name }} - SmartCart{% endblock %}
 
 {% block content %}
-<div style="max-width: 700px; margin: 0 auto;">
-    <a href="/user/products" class="nav-link mb-4" style="display: inline-flex; align-items: center; gap: 8px;">
-        <i class="ph ph-arrow-left"></i> Back to Products
-    </a>
+<div style="max-width: 1200px; margin: 0 auto; padding: 10px 0;">
+    <!-- Back button -->
+    <div style="margin-bottom: 25px;">
+        <a href="/user/products" style="background: #ffffff; color: #374151; border: 1.5px solid #dde1e9; padding: 10px 20px; font-size: 0.95rem; font-weight: 600; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: background 0.2s;" onmouseover="this.style.background='#f9fafb';" onmouseout="this.style.background='#ffffff';">
+            <i class="ph ph-arrow-left"></i> Back to Shopping
+        </a>
+    </div>
 
     <!-- Flash Messages (Amazon Style) -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
-        <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 25px;">
           {% for category, message in messages %}
-            <div class="glass-effect" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; gap: 10px; color: #10b981; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
-                <i class="ph-fill ph-check-circle" style="font-size: 1.25rem;"></i>
+            <div style="background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 14px 20px; display: flex; align-items: center; gap: 10px; color: #047857; font-weight: 700; font-size: 0.98rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <i class="ph-fill ph-check-circle" style="font-size: 1.35rem;"></i>
                 <span>{{ message }}</span>
             </div>
           {% endfor %}
@@ -22,56 +25,61 @@
       {% endif %}
     {% endwith %}
 
-    <div class="card glass-effect" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; align-items: center; padding: 25px;">
-        <!-- Product Image -->
-        <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--glass-border); height: 260px;">
-            <img src="/static/uploads/product_images/{{ product.image }}" 
-                 alt="{{ product.name }}"
-                 style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 15px 20px rgba(0,0,0,0.5)); border-radius: 8px;">
+    <!-- Dual panel grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; align-items: start;">
+        
+        <!-- Left: Image Card -->
+        <div style="background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); border-radius: 24px; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15); border: 1px solid rgba(255, 255, 255, 0.08); padding: 40px; display: flex; align-items: center; justify-content: center; min-height: 450px; overflow: hidden;">
+            <div style="background: #ffffff; padding: 25px; border-radius: 20px; display: flex; align-items: center; justify-content: center; width: 100%; height: 380px; overflow: hidden; box-shadow: inset 0 2px 8px rgba(0,0,0,0.06);">
+                <img src="/static/uploads/product_images/{{ product.image }}" 
+                     alt="{{ product.name }}"
+                     style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;">
+            </div>
         </div>
 
-        <!-- Product Info -->
-        <div style="display: flex; flex-direction: column; gap: 12px;">
+        <!-- Right: Info Card -->
+        <div style="background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); border-radius: 24px; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15); border: 1px solid rgba(255, 255, 255, 0.08); padding: 40px; display: flex; flex-direction: column; gap: 20px;">
+            
             <div>
-                <span style="background: var(--accent-primary); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin-bottom: 6px; display: inline-block;">
-                    {{ product.category }}
-                </span>
-                <h1 style="font-size: 1.6rem; line-height: 1.2; margin: 0;">{{ product.name }}</h1>
+                <!-- Title -->
+                <h1 style="font-size: 2.2rem; font-weight: 800; color: #ffffff; margin: 0 0 12px 0; line-height: 1.2; letter-spacing: -0.5px;">{{ product.name }}</h1>
+                
+                <!-- Category -->
+                <div style="font-size: 1.05rem; font-weight: 600; color: #93c5fd;">
+                    Category: <span style="color: #ffffff; font-weight: 700;">{{ product.category }}</span>
+                </div>
             </div>
 
-            <div style="font-size: 1.8rem; font-weight: 700; color: #000000;">
+            <!-- Description -->
+            <p style="line-height: 1.7; color: #cbd5e1; font-size: 1.05rem; margin: 0; font-weight: 400;">
+                {{ product.description }}
+            </p>
+
+            <!-- Price -->
+            <div style="font-size: 2.2rem; font-weight: 800; color: #fbbf24; margin: 10px 0;">
                 ₹{{ product.price }}
             </div>
 
-            <hr style="border: none; border-top: 1px solid var(--glass-border); margin: 5px 0;">
-
-            <div>
-                <h3 style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 5px;">Description</h3>
-                <p style="line-height: 1.5; color: var(--text-main); font-size: 0.9rem; margin: 0;">
-                    {{ product.description }}
-                </p>
-            </div>
-
-            <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
-                <div style="display: flex; gap: 10px; width: 100%;">
-                    <form action="/user/add-to-cart/{{ product.product_id }}" method="GET" style="flex: 1; margin: 0; padding: 0;">
-                        <button type="submit" class="btn btn-secondary" style="width: 100%; padding: 10px; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;">Add to Cart</button>
-                    </form>
-                    <button class="btn btn-secondary" style="padding: 10px; width: 45px; display: flex; align-items: center; justify-content: center;">
-                        <i class="ph ph-heart" style="font-size: 1.2rem;"></i>
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 15px; width: 100%; margin-top: 10px;">
+                <form action="/user/add-to-cart/{{ product.product_id }}" method="GET" style="flex: 1; margin: 0; padding: 0;">
+                    <button type="submit" class="btn" style="width: 100%; background: #0d6efd; color: #ffffff; padding: 14px 24px; font-size: 1.05rem; font-weight: 700; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; border: none; transition: background 0.2s;" onmouseover="this.style.background='#0b5ed7';" onmouseout="this.style.background='#0d6efd';">
+                        <i class="ph ph-shopping-cart" style="font-size: 1.25rem;"></i> Add to Cart
                     </button>
-                </div>
-                <button class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem; font-weight: 700;">
-                    <i class="ph-fill ph-lightning"></i> Buy Now
-                </button>
+                </form>
+                
+                <a href="/user/buy-now/{{ product.product_id }}" class="btn" style="flex: 1; background: #198754; color: #ffffff; padding: 14px 24px; font-size: 1.05rem; font-weight: 700; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; text-align: center; border: none; transition: background 0.2s;" onmouseover="this.style.background='#157347';" onmouseout="this.style.background='#198754';">
+                    <i class="ph-fill ph-lightning" style="font-size: 1.25rem;"></i> Buy Now
+                </a>
             </div>
 
-            <div style="margin-top: 10px; padding: 12px; background: rgba(139, 92, 246, 0.05); border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.2);">
-                <div style="display: flex; align-items: center; gap: 8px; color: var(--accent-primary); font-weight: 600; font-size: 0.85rem;">
-                    <i class="ph-fill ph-truck" style="font-size: 1.1rem;"></i>
+            <!-- Perks info block -->
+            <div style="margin-top: 15px; padding: 16px; background: rgba(255, 255, 255, 0.05); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div style="display: flex; align-items: center; gap: 8px; color: #93c5fd; font-weight: 700; font-size: 0.95rem;">
+                    <i class="ph-fill ph-truck" style="font-size: 1.25rem;"></i>
                     <span>Fast & Free Delivery Available</span>
                 </div>
-                <p style="margin: 3px 0 0 26px; font-size: 0.75rem; color: var(--text-muted);">Secure payment & 7-day easy returns.</p>
+                <p style="margin: 4px 0 0 28px; font-size: 0.85rem; color: #cbd5e1;">Secure payment & 7-day easy returns.</p>
             </div>
         </div>
     </div>

@@ -17,7 +17,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: radial-gradient(circle at top left, #1e1b4b, #0f172a 40%, #020617);
+    background: radial-gradient(circle at top left, #1e3a8a, #0f172a 50%, #090d16 100%);
     color: var(--text-main);
     margin: 0;
     padding: 0;

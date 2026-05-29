@@ -18,14 +18,14 @@
     {% else %}
         
         <!-- Table & Totals Card Wrapper -->
-        <div style="background: #ffffff; color: #333333; border-radius: 16px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); margin-top: 10px; font-family: 'Inter', sans-serif;">
+        <div style="background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); color: #ffffff; border-radius: 24px; padding: 30px; box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.08); margin-top: 10px; font-family: 'Inter', sans-serif;">
             
             <!-- Items Table -->
             <div style="overflow-x: auto; margin-bottom: 25px;">
                 <table style="width: 100%; border-collapse: collapse; text-align: center; vertical-align: middle;">
                     <thead>
-                        <tr style="background: #212529; color: #ffffff;">
-                            <th style="padding: 15px; border-top-left-radius: 8px; border-bottom-left-radius: 8px; width: 60px;">
+                        <tr style="background: #111827; color: #ffffff;">
+                            <th style="padding: 15px; border-top-left-radius: 12px; border-bottom-left-radius: 12px; width: 60px;">
                                 <input type="checkbox" id="master-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #0d6efd; vertical-align: middle;">
                             </th>
                             <th style="padding: 15px; font-weight: 600; font-size: 0.95rem;">Image</th>
@@ -33,45 +33,45 @@
                             <th style="padding: 15px; font-weight: 600; font-size: 0.95rem;">Price</th>
                             <th style="padding: 15px; font-weight: 600; font-size: 0.95rem;">Quantity</th>
                             <th style="padding: 15px; font-weight: 600; font-size: 0.95rem;">Total</th>
-                            <th style="padding: 15px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; font-weight: 600; font-size: 0.95rem;">Action</th>
+                            <th style="padding: 15px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; font-weight: 600; font-size: 0.95rem;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for pid, item in cart.items() %}
-                        <tr class="cart-item-row" data-pid="{{ pid }}" data-price="{{ item.price }}" data-qty="{{ item.quantity }}" style="border-bottom: 1px solid #f0f0f0;">
+                        <tr class="cart-item-row" data-pid="{{ pid }}" data-price="{{ item.price }}" data-qty="{{ item.quantity }}" style="border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
                             <!-- Selection Checkbox -->
                             <td style="padding: 15px;">
                                 <input type="checkbox" class="item-checkbox" data-pid="{{ pid }}" style="width: 18px; height: 18px; cursor: pointer; accent-color: #0d6efd; vertical-align: middle;">
                             </td>
                             <!-- Product Image -->
                             <td style="padding: 15px;">
-                                <div style="width: 70px; height: 70px; border-radius: 8px; border: 1px solid #e0e0e0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #fafafa; margin: 0 auto;">
+                                <div style="width: 70px; height: 70px; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #ffffff; margin: 0 auto; padding: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
                                     <img src="/static/uploads/product_images/{{ item.image }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                                 </div>
                             </td>
                             <!-- Product Name -->
-                            <td style="padding: 15px; text-align: left; font-weight: 500; color: #212529;">{{ item.name }}</td>
+                            <td style="padding: 15px; text-align: left; font-weight: 700; color: #ffffff;">{{ item.name }}</td>
                             <!-- Price -->
-                            <td style="padding: 15px; font-weight: 600; color: #495057;">₹{{ item.price }}</td>
+                            <td style="padding: 15px; font-weight: 600; color: #93c5fd;">₹{{ item.price }}</td>
                             <!-- Quantity Controls -->
                             <td style="padding: 15px;">
-                                <div style="display: inline-flex; align-items: center; gap: 12px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 4px 8px;">
+                                <div style="display: inline-flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 4px 8px;">
                                     <a href="/user/cart/decrease/{{ pid }}" style="width: 24px; height: 24px; border-radius: 4px; background: #0d6efd; color: #ffffff; display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: bold; font-size: 1.1rem; line-height: 1;">-</a>
-                                    <span style="font-weight: 600; color: #212529; font-size: 1rem; min-width: 15px; display: inline-block;">{{ item.quantity }}</span>
+                                    <span style="font-weight: 600; color: #ffffff; font-size: 1rem; min-width: 15px; display: inline-block;">{{ item.quantity }}</span>
                                     <a href="/user/cart/increase/{{ pid }}" style="width: 24px; height: 24px; border-radius: 4px; background: #0d6efd; color: #ffffff; display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: bold; font-size: 1.1rem; line-height: 1;">+</a>
                                 </div>
                             </td>
                             <!-- Item Total -->
-                            <td style="padding: 15px; font-weight: 700; color: #212529;">₹{{ item.price * item.quantity }}</td>
+                            <td style="padding: 15px; font-weight: 700; color: #ffffff;">₹{{ item.price * item.quantity }}</td>
                             <!-- Actions -->
                             <td style="padding: 15px;">
                                 <div style="display: flex; gap: 8px; justify-content: center;">
-                                    <a href="/user/product/{{ pid }}" class="btn btn-sm btn-outline-primary" style="padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; border: 1px solid #0d6efd; color: #0d6efd; background: transparent; text-decoration: none; display: flex; align-items: center; gap: 4px; transition: all 0.2s;"
-                                       onmouseover="this.style.background='rgba(13, 110, 253, 0.08)';" onmouseout="this.style.background='transparent';">
+                                    <a href="/user/product/{{ pid }}" class="btn btn-sm" style="padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; background: rgba(13, 110, 253, 0.15); border: 1px solid rgba(13, 110, 253, 0.3); color: #93c5fd; text-decoration: none; display: flex; align-items: center; gap: 4px; transition: all 0.2s;"
+                                       onmouseover="this.style.background='rgba(13, 110, 253, 0.3)'; this.style.color='#ffffff';" onmouseout="this.style.background='rgba(13, 110, 253, 0.15)'; this.style.color='#93c5fd';">
                                         <i class="ph ph-eye"></i> View
                                     </a>
-                                    <a href="/user/cart/remove/{{ pid }}" class="btn btn-sm btn-outline-danger" style="padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; border: 1px solid #dc3545; color: #dc3545; background: transparent; text-decoration: none; display: flex; align-items: center; gap: 4px; transition: all 0.2s;"
-                                       onmouseover="this.style.background='rgba(220, 53, 69, 0.08)';" onmouseout="this.style.background='transparent';">
+                                    <a href="/user/cart/remove/{{ pid }}" class="btn btn-sm" style="padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; background: rgba(220, 53, 69, 0.15); border: 1px solid rgba(220, 53, 69, 0.3); color: #fca5a5; text-decoration: none; display: flex; align-items: center; gap: 4px; transition: all 0.2s;"
+                                       onmouseover="this.style.background='rgba(220, 53, 69, 0.3)'; this.style.color='#ffffff';" onmouseout="this.style.background='rgba(220, 53, 69, 0.15)'; this.style.color='#fca5a5';">
                                         <i class="ph ph-trash"></i> Remove
                                     </a>
                                 </div>
@@ -84,19 +84,19 @@
 
             <!-- Double Total Summary Card -->
             <div style="display: flex; justify-content: flex-end; margin-bottom: 25px;">
-                <div style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 12px; padding: 20px; min-width: 340px; text-align: right; box-shadow: 0 4px 12px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 8px;">
-                    <div style="font-size: 1.15rem; font-weight: 700; color: #212529;">
-                        Cart Grand Total: <span id="grand-total-display">₹0.00</span>
+                <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; min-width: 340px; text-align: right; box-shadow: none; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="font-size: 1.15rem; font-weight: 700; color: #ffffff;">
+                        Cart Grand Total: <span id="grand-total-display" style="color: #ffffff;">₹0.00</span>
                     </div>
-                    <div style="font-size: 1.1rem; font-weight: 700; color: #157347;">
-                        Selected Products Total: <span id="selected-total-display">₹0.00</span>
+                    <div style="font-size: 1.1rem; font-weight: 700; color: #fbbf24;">
+                        Selected Products Total: <span id="selected-total-display" style="color: #fbbf24;">₹0.00</span>
                     </div>
                 </div>
             </div>
 
             <!-- Bottom Action Row -->
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <a href="/user/products" style="padding: 12px 24px; border-radius: 8px; border: 1.5px solid #0d6efd; background: transparent; color: #0d6efd; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: all 0.2s;"
+                <a href="/user/products" style="padding: 12px 24px; border-radius: 8px; border: 1.5px solid #0d6efd; background: transparent; color: #93c5fd; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: all 0.2s;"
                    onmouseover="this.style.background='rgba(13, 110, 253, 0.08)';" onmouseout="this.style.background='transparent';">
                     Continue Shopping
                 </a>

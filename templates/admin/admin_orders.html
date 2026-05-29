@@ -44,8 +44,11 @@
         font-weight: 500;
         vertical-align: middle;
     }
+    .orders-table tr {
+        transition: background 0.2s ease;
+    }
     .orders-table tr:hover td {
-        background: #f8fafc;
+        background: rgba(255, 255, 255, 0.06);
     }
     .badge-status {
         padding: 6px 12px;
@@ -78,6 +81,13 @@
     }
 </style>
 
+<style>
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
 <div class="fade-in-up">
     <div class="orders-header">
         <h2>Manage Orders</h2>
@@ -93,6 +103,7 @@
                     <th>Amount</th>
                     <th>Status</th>
                     <th>Date</th>
+                    <th style="text-align: center;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -115,10 +126,30 @@
                         {% endif %}
                     </td>
                     <td style="color: #64748b; font-size: 0.9rem;">{{ order.created_at }}</td>
+                    <td style="text-align: center;">
+                        <button class="btn btn-sm" onclick="toggleAddress('{{ order.order_id }}')" style="padding: 6px 14px; font-size: 0.8rem; font-weight: 700; border-radius: 8px; background: rgba(13, 110, 253, 0.15); border: 1px solid rgba(13, 110, 253, 0.3); color: #93c5fd; transition: all 0.2s;" onmouseover="this.style.background='rgba(13,110,253,0.3)'; this.style.color='#ffffff';" onmouseout="this.style.background='rgba(13,110,253,0.15)'; this.style.color='#93c5fd';">
+                            <i class="ph ph-map-pin"></i> View
+                        </button>
+                    </td>
+                </tr>
+                <tr id="address-row-{{ order.order_id }}" style="display: none; background: rgba(255, 255, 255, 0.02);">
+                    <td colspan="7" style="padding: 20px 30px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); text-align: left;">
+                        <div style="display: flex; align-items: flex-start; gap: 15px; animation: slideDown 0.25s ease-out;">
+                            <div style="background: rgba(13, 110, 253, 0.15); border-radius: 12px; padding: 12px; color: #93c5fd; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(13, 110, 253, 0.2);">
+                                <i class="ph-fill ph-map-pin" style="font-size: 1.6rem;"></i>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <span style="font-weight: 800; color: #ffffff; font-size: 1rem; letter-spacing: -0.2px;">Shipping Address</span>
+                                <span style="color: #cbd5e1; font-size: 0.92rem; white-space: pre-line; line-height: 1.6; font-weight: 500;">
+                                    {{ order.shipping_address or 'No address provided / Local Store Pick-up' }}
+                                </span>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">
+                    <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
                         <i class="ph-fill ph-shopping-bag" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 15px; display: block;"></i>
                         No orders have been placed yet.
                     </td>
@@ -128,5 +159,18 @@
         </table>
     </div>
 </div>
+
+<script>
+function toggleAddress(orderId) {
+    const row = document.getElementById('address-row-' + orderId);
+    if (row) {
+        if (row.style.display === 'none') {
+            row.style.display = 'table-row';
+        } else {
+            row.style.display = 'none';
+        }
+    }
+}
+</script>
 
 {% endblock %}
