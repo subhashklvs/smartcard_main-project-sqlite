@@ -276,6 +276,10 @@ def admin_login():
         flash("Incorrect password! Try again.", "danger")
         return redirect('/admin-login')
 
+    if admin.get('status') != 'approved':
+        flash("Your account is pending. Please take approval from the superadmin.", "warning")
+        return redirect('/admin-login')
+
     session['admin_id'] = admin['admin_id']
     session['admin_name'] = admin['name']
     session['admin_email'] = admin['email']
@@ -513,12 +517,12 @@ def item_list():
     cursor = conn.cursor(dictionary=True)
 
     # Fetch category list for dropdown
-    cursor.execute("SELECT DISTINCT category FROM products ORDER BY category")
+    cursor.execute("SELECT DISTINCT category FROM products WHERE admin_id = %s ORDER BY category", (session['admin_id'],))
     categories = cursor.fetchall()
 
     # Build dynamic query based on filters
-    base_where = " WHERE 1=1"
-    params = []
+    base_where = " WHERE admin_id = %s"
+    params = [session['admin_id']]
 
     if search:
         base_where += " AND name LIKE %s"
@@ -566,7 +570,7 @@ def view_item(item_id):
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM products WHERE product_id = %s", (item_id,))
+    cursor.execute("SELECT * FROM products WHERE product_id = %s AND admin_id = %s", (item_id, session['admin_id']))
     product = cursor.fetchone()
     cursor.close()
     conn.close()
@@ -589,7 +593,7 @@ def update_item_page(item_id):
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM products WHERE product_id = %s", (item_id,))
+    cursor.execute("SELECT * FROM products WHERE product_id = %s AND admin_id = %s", (item_id, session['admin_id']))
     product = cursor.fetchone()
     cursor.close()
     conn.close()
@@ -619,7 +623,7 @@ def update_item(item_id):
     # Fetch old product data
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM products WHERE product_id = %s", (item_id,))
+    cursor.execute("SELECT * FROM products WHERE product_id = %s AND admin_id = %s", (item_id, session['admin_id']))
     product = cursor.fetchone()
 
     # Close connection before redirecting
@@ -654,8 +658,8 @@ def update_item(item_id):
     cursor.execute("""
         UPDATE products
         SET name=%s, description=%s, category=%s, price=%s, image=%s
-        WHERE product_id=%s
-    """, (name, description, category, price, final_image_name, item_id))
+        WHERE product_id=%s AND admin_id=%s
+    """, (name, description, category, price, final_image_name, item_id, session['admin_id']))
 
     conn.commit()
     cursor.close()
@@ -678,7 +682,7 @@ def delete_item(item_id):
     cursor = conn.cursor(dictionary=True)
 
     # Fetch image name before deleting
-    cursor.execute("SELECT image FROM products WHERE product_id = %s", (item_id,))
+    cursor.execute("SELECT image FROM products WHERE product_id = %s AND admin_id = %s", (item_id, session['admin_id']))
     product = cursor.fetchone()
 
     if product:
@@ -692,7 +696,7 @@ def delete_item(item_id):
             cursor.execute("DELETE FROM cart WHERE product_id = %s", (item_id,))
             
             # Now attempt to delete the product
-            cursor.execute("DELETE FROM products WHERE product_id = %s", (item_id,))
+            cursor.execute("DELETE FROM products WHERE product_id = %s AND admin_id = %s", (item_id, session['admin_id']))
             conn.commit()
             flash("Product deleted successfully!", "success")
         except mysql.connector.Error as err:
@@ -2275,6 +2279,34 @@ def superadmin_revenue():
     conn.close()
     
     return render_template('superadmin/revenue.html', revenue_data=revenue_data, total_revenue=total_revenue)
+
+
+@app.route('/superadmin/admin-revenue')
+def superadmin_admin_revenue():
+    if 'superadmin_id' not in session:
+        return redirect('/superadmin-login')
+        
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    query = """
+        SELECT a.name as admin_name, a.email as admin_email, SUM(oi.price * oi.quantity) as total_revenue
+        FROM order_items oi
+        JOIN orders o ON oi.order_id = o.order_id
+        JOIN products p ON oi.product_id = p.product_id
+        JOIN admin a ON p.admin_id = a.admin_id
+        WHERE o.payment_status = 'paid'
+        GROUP BY a.admin_id
+        ORDER BY total_revenue DESC
+    """
+    cursor.execute(query)
+    admin_revenues = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    
+    return render_template('superadmin/admin_revenue.html', admin_revenues=admin_revenues)
+
 
 
 # ------------------------- RUN APP ------------------------

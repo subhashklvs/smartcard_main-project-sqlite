@@ -117,11 +117,11 @@
 </div>
 
 <div class="stats-grid">
-    <div class="stat-card">
+    <a href="/superadmin/admins" class="stat-card" style="text-decoration: none; display: block;">
         <i class="ph-fill ph-users-three stat-icon" style="color: #3b82f6;"></i>
         <div class="stat-value">{{ stats.admins }}</div>
         <div class="stat-label">Active Admins</div>
-    </div>
+    </a>
     
     <div class="stat-card">
         <i class="ph-fill ph-user-circle stat-icon" style="color: #10b981;"></i>
@@ -129,25 +129,25 @@
         <div class="stat-label">Total Users</div>
     </div>
     
-    <div class="stat-card">
+    <a href="/superadmin/products" class="stat-card" style="text-decoration: none; display: block;">
         <i class="ph-fill ph-package stat-icon" style="color: #f59e0b;"></i>
         <div class="stat-value">{{ stats.products }}</div>
         <div class="stat-label">Products Listed</div>
-    </div>
+    </a>
     
-    <div class="stat-card">
+    <a href="/superadmin/orders" class="stat-card" style="text-decoration: none; display: block;">
         <i class="ph-fill ph-shopping-cart stat-icon" style="color: #ef4444;"></i>
         <div class="stat-value">{{ stats.orders }}</div>
         <div class="stat-label">Total Orders</div>
-    </div>
+    </a>
     
-    <div class="stat-card" style="grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between;">
+    <a href="/superadmin/revenue" class="stat-card" style="grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; text-decoration: none;">
         <div>
             <div class="stat-label mb-2">Total Platform Revenue</div>
             <div class="stat-value" style="font-size: 3.5rem; color: #10b981;">₹{{ stats.revenue }}</div>
         </div>
         <i class="ph-fill ph-chart-line-up" style="font-size: 6rem; color: rgba(16, 185, 129, 0.2);"></i>
-    </div>
+    </a>
 </div>
 
 <h3 style="color: #ffffff; font-size: 1.5rem; font-weight: 700; margin-bottom: 20px;">Quick Management</h3>
