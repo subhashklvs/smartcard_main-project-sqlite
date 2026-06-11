@@ -161,9 +161,9 @@ def index():
 # ---------------------------------------------------------
 @app.route('/about')
 def about_page():
-    base_template = "admin/base.html"
-    if 'user_id' in session or request.referrer and 'user' in request.referrer:
-        base_template = "user/user_base.html"
+    base_template = "user/user_base.html"
+    if 'admin_id' in session or (request.referrer and 'admin' in request.referrer):
+        base_template = "admin/base.html"
     return render_template("admin/about.html", base_template=base_template)
 
 # ---------------------------------------------------------
@@ -399,9 +399,9 @@ def old_admin_dashboard():
 # ---------------------------------------------------------
 @app.route('/contact', methods=['GET', 'POST'])
 def contact_page():
-    base_template = "admin/base.html"
-    if 'user_id' in session or request.referrer and 'user' in request.referrer:
-        base_template = "user/user_base.html"
+    base_template = "user/user_base.html"
+    if 'admin_id' in session or (request.referrer and 'admin' in request.referrer):
+        base_template = "admin/base.html"
 
     if request.method == 'GET':
         return render_template("admin/contact.html", base_template=base_template)
