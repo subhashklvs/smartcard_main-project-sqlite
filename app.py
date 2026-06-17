@@ -919,7 +919,6 @@ def user_register():
 
     name = request.form['name']
     email = request.form['email']
-    password = request.form['password']
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -934,7 +933,6 @@ def user_register():
 
     session['user_signup_name'] = name
     session['user_signup_email'] = email
-    session['user_signup_password'] = password
 
     otp = str(random.randint(100000, 999999))
     session['user_otp'] = otp
@@ -980,7 +978,6 @@ def user_verify_otp():
     session.pop('user_otp', None)
     session.pop('user_signup_name', None)
     session.pop('user_signup_email', None)
-    session.pop('user_signup_password', None)
 
     flash("Registered successfully! Please login.", "success")
     return redirect('/user-login')
