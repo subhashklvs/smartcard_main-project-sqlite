@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 import config
 import razorpay
 from utils.pdf_generator import generate_pdf
+from xhtml2pdf import pisa
 
 
 app = Flask(__name__)
